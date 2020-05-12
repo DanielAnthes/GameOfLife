@@ -3,6 +3,7 @@
 #include<cmath>
 #include<fstream>
 #include<unistd.h>
+#include<curses.h>
 
 template <int H, int W> // size of environment determined on construction
 class GameOfLife
@@ -87,6 +88,11 @@ class GameOfLife
 		return width;
 	};
 
+	public: std::bitset<H*W> getState()
+	{
+		return environment;
+	};
+
 	private: int countNeighbours(int row, int col)
 	// counts neighbours of cell
 	{
@@ -157,6 +163,41 @@ class GameOfLife
 
 };
 
+template<int H, int W> // statesize needs to be known for bitset, defined as H - height and W - width
+class TUI
+{
+	int height;
+	int width;
+
+public: TUI()
+{
+	initscr(); // init terminal
+	noecho(); // do notecho input
+	cbreak(); // du not buffer input
+	clear(); // clear terminal
+	height = H;
+	width = W;
+};
+
+	void printState(std::bitset<H*W> gamestate)
+	{
+		clear(); // clear screen
+		std::string printstring;
+		for(int r = 0; r < height; r++){
+			printstring = "";
+			for(int c = 0; c < width; c++)
+			{
+				int state = gamestate[r*width+c];
+				if(state==1)
+					printstring += "G ";
+				else
+					printstring += ". ";
+			};
+			mvaddstr(r,0,printstring.c_str()); // display one line of the state
+		};
+	refresh(); // draw screen
+	};
+};
 
 int main()
 {
@@ -173,13 +214,19 @@ int main()
 
 	GameOfLife<height,width> game = GameOfLife<height,width>(userinput);
 	std::cout << "Initialized game successfully!" << std::endl;
-	game.printState();
+
+	// init curses
+	TUI<height,width> interface = TUI<height,width>();
+	std::bitset<width*height> gamestate;
+	gamestate = game.getState();
+	interface.printState(gamestate);
+
 	for(int i = 0; i < 1000; i++)
 	{
 		usleep(30000);
 		game.step();
-		std::cout << std::endl;
-		game.printState();
+		gamestate = game.getState();
+		interface.printState(gamestate);
 
 	};
 	std::cout << "Game ended." << std::endl;
