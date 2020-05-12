@@ -189,9 +189,9 @@ public: TUI()
 			{
 				int state = gamestate[r*width+c];
 				if(state==1)
-					printstring += "G ";
+					printstring += "o ";
 				else
-					printstring += ". ";
+					printstring += "  ";
 			};
 			mvaddstr(r,0,printstring.c_str()); // display one line of the state
 		};
