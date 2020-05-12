@@ -176,7 +176,7 @@ int main()
 	game.printState();
 	for(int i = 0; i < 1000; i++)
 	{
-		sleep(1);
+		usleep(30000);
 		game.step();
 		std::cout << std::endl;
 		game.printState();
