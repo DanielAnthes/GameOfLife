@@ -161,13 +161,17 @@ int main()
 {
 	try
 	{
+	// read config from stdin
 	const int width = 40;
 	const int height = 20;
-	GameOfLife<height,width> game = GameOfLife<height,width>("pulsar_20_40");
+
+	std::cout << "Game size: " << height << " x " << width << std::endl;
+	std::cout << "Location of Layout File: " << std::endl;
+	std::string userinput;
+	std::getline(std::cin, userinput);
+
+	GameOfLife<height,width> game = GameOfLife<height,width>(userinput);
 	std::cout << "Initialized game successfully!" << std::endl;
-	std::cout << "Height: " << game.getHeight() << std::endl;
-	std::cout << "Width: " << game.getWidth() << std::endl;
-	std::cout << "Initial State: " << std::endl;
 	game.printState();
 	for(int i = 0; i < 1000; i++)
 	{
