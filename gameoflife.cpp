@@ -172,8 +172,8 @@ class TUI
 public: TUI()
 {
 	initscr(); // init terminal
-	noecho(); // do notecho input
-	cbreak(); // du not buffer input
+	noecho(); // do not echo input
+	cbreak(); // do not buffer input
 	clear(); // clear terminal
 	height = H;
 	width = W;
@@ -203,10 +203,10 @@ int main()
 {
 	try
 	{
-	// read config from stdin
 	const int width = 40;
 	const int height = 20;
 
+	// read config from stdin
 	std::cout << "Game size: " << height << " x " << width << std::endl;
 	std::cout << "Location of Layout File: " << std::endl;
 	std::string userinput;
@@ -223,7 +223,7 @@ int main()
 
 	for(int i = 0; i < 1000; i++)
 	{
-		usleep(30000);
+		usleep(50000);
 		game.step();
 		gamestate = game.getState();
 		interface.printState(gamestate);
