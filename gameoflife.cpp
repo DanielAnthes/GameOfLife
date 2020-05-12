@@ -46,6 +46,7 @@ class GameOfLife
 				};
 				environment = std::bitset<H*W>(bitstring);
 			};
+			file.close();
 		}
 		else
 		{
